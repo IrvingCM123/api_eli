@@ -26,6 +26,7 @@ export class DetalleOrdenCompra {
 
     // Relaciona la tabla detalleOC con la tabla Cuenta, almacenando el identificador de la tabla Cuenta, permitiendo que una cuenta pueda tener varios detalles de orden de compra
     @ManyToOne( () => Cuenta, (cuentas) => cuentas.cuenta_ID, { eager: true, cascade: true })
+    @JoinTable({ name: 'detalleOC_Cuenta_ID' })
     detalleOC_Cuenta_ID: Cuenta;
 
     // Relaciona la tabla detalleOC con la tabla productoOC, almacenando el identificador de la tabla productoOC, permitiendo que un detalle de orden de compra pueda tener varios productos de orden de compra

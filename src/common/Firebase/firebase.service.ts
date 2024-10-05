@@ -10,7 +10,10 @@ export class FirebaseService {
   async AlmacenarImagen(ImagenBase64: string, NombreImagen: string): Promise<string> {
     try {
       // Convertir la imagen Base64 en un Buffer
-      const buffer = Buffer.from(ImagenBase64, 'base64');
+      const base64Data = ImagenBase64.replace(/^data:image\/\w+;base64,/, '');
+
+    // Convertir la imagen base64 en un Buffer
+    const buffer = Buffer.from(base64Data, 'base64');
 
       // Obtener la extensión del archivo basado en el tipo MIME
       const extensionImagen = mime.extension(mime.lookup(NombreImagen) || 'image/jpeg');

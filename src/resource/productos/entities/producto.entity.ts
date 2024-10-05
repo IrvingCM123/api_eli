@@ -1,4 +1,5 @@
 import { enumProductoStatus } from 'src/common/enums/inventario_status.enum';
+import { enumTipoProducto } from 'src/common/enums/tipos_productos.enum';
 import { DetalleOrdenCompra, ProductoOrdenCompra } from 'src/resource/detalle_orden_compra/entities/detalle_orden_compra.entity';
 import { Proveedore } from 'src/resource/proveedores/entities/proveedore.entity';
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
@@ -12,8 +13,8 @@ export class Producto {
     @Column({ type: 'varchar', length: 30, nullable: false, unique: true })
     producto_Nombre: string;
 
-    @Column({ type: 'varchar', length: 30, nullable: true })
-    producto_Categoria: string;
+    @Column({ type: 'enum', enum: enumTipoProducto })
+    producto_Categoria: enumTipoProducto;
 
     @Column({ type: 'decimal', nullable: false })
     producto_Precio: number;

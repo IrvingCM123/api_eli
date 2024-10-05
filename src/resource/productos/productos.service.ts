@@ -20,6 +20,8 @@ import { CreateInventarioDto } from '../inventario/dto/create-inventario.dto';
 import { InventarioService } from '../inventario/inventario.service';
 // Importa el enum enumProductoStatus, para definir los estados del producto
 import { enumProductoStatus } from 'src/common/enums/inventario_status.enum';
+// Importa el servicio para almacenar una imagen a Firebase
+import { FirebaseService } from 'src/common/Firebase/firebase.service';
 
 @Injectable()
 export class ProductosService {
@@ -28,6 +30,7 @@ export class ProductosService {
     private inventarioService: InventarioService,
     private transaccionService: TransaccionService,
     private proveedoresService: ProveedoresService,
+    private firebaseService: FirebaseService
   ) {}
 
   // Método para crear un producto en la base de datos con su respectivo inventario
@@ -43,10 +46,11 @@ export class ProductosService {
     delete createProductoDto.producto_stock;
     // Asigna el estado del producto como ACTIVO
     createProductoDto.producto_Status = enumProductoStatus.ACTIVO;
+    createProductoDto.producto_ImagenURL = await this.firebaseService.AlmacenarImagen(createProductoDto.producto_ImagenURL, createProductoDto.producto_Nombre);
     // Realiza la transacción de guardar el producto en la base de datos con el DTO recibido
     const producto_nuevo = await this.transaccionService.transaction( Tipo_Transaccion.Guardar, Producto, createProductoDto );
     // Si ocurre un error al guardar el producto, devuelve un mensaje de error
-    if (producto_nuevo.status === 500) { return { status: 500, mensaje: 'Error al crear el producto' }; } 
+    if (producto_nuevo.status == 500) { return { status: 500, mensaje: 'Error al crear el producto' }; } 
     // Si el producto se guarda con éxito, crea el inventario del producto en la base de datos
     else { await this.crearInventario({ inventario_ProductoID: producto_nuevo.resultado.producto_ID, inventario_Cantidad: stock }, user); }
     // Devuelve un mensaje de éxito al crear el producto
