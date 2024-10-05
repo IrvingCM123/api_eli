@@ -25,7 +25,7 @@ export class Proveedore {
     @PrimaryGeneratedColumn()
     proveedor_ID: number;  
 
-    @Column({ type: 'varchar', length: 60, nullable: false, unique: true })
+    @Column({ type: 'varchar', length: 60, nullable: false })
     proveedor_Nombre: string;
 
     @Column({ type: 'varchar', length: 100, nullable: false })
@@ -34,7 +34,7 @@ export class Proveedore {
     @Column({ type: 'bigint', nullable: false })
     proveedor_Telefono: number;
 
-    @Column({ type: 'varchar', length: 60, nullable: false, unique: true })
+    @Column({ type: 'varchar', length: 60, nullable: false })
     proveedor_Email: string;
 
     @Column({ type: 'varchar', length: 255, nullable: true })

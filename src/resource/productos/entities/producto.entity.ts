@@ -10,7 +10,7 @@ export class Producto {
     @PrimaryGeneratedColumn()
     producto_ID: number;
 
-    @Column({ type: 'varchar', length: 30, nullable: false, unique: true })
+    @Column({ type: 'varchar', length: 30, nullable: false })
     producto_Nombre: string;
 
     @Column({ type: 'enum', enum: enumTipoProducto })

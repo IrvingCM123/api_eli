@@ -55,7 +55,6 @@ export class ProveedoresService {
 
     const proveedor_banco = { proveedorBanco_CuentaBancaria: cuentaBancaria, proveedorBanco_NombreBanco: nombreBanco, proveedorBanco_NombreBeneficiario: nombreBeneficiario, proveedorBanco_TipoTransaccion: tipoTransaccion }
 
-    console.log(proveedor_banco, 'proveedor_banco');
     const crear_proveedor_banco = await this.transaccionService.transaction(Tipo_Transaccion.Guardar, ProveedorBanco, proveedor_banco)
 
     if (crear_proveedor_banco.status === 500) { return { status: 500, mensaje: 'Error al crear la información bancaria' } }
@@ -87,18 +86,14 @@ export class ProveedoresService {
   }
 
   async update(id: number, updateProveedoreDto: UpdateProveedoreDto, user: User_Interface) {
-    
     const validar = validarAdmin(user);
-
     if (validar !== true) { return { status: 500, mensaje: validar } }
-
-    const proveedor = {...updateProveedoreDto, proveedor_fecha_creacion: new Date()  }
-
+    const proveedorBanco = { ...updateProveedoreDto.proveedorBanco_ID }
+    await this.transaccionService.transaction( Tipo_Transaccion.Actualizar, ProveedorBanco, proveedorBanco, 'proveedorBanco_ID', proveedorBanco.proveedorBanco_ID.toString() )
+    const proveedor = {...updateProveedoreDto, proveedor_FechaCreacion: new Date()  }
     const actualizar_proveedor = await this.transaccionService.transaction( Tipo_Transaccion.Actualizar, Proveedore, proveedor, 'proveedor_ID', id.toString() )
-
-    if (actualizar_proveedor.status === 500) { return { status: 500, mensaje: 'Error al actualizar el proveedor' } }
-
-    return { status: 200, mensaje: 'Proveedor actualizado con éxito' }
+    if (actualizar_proveedor.status == 500) { return { status: 500, mensaje: 'Error al actualizar el proveedor' } }
+    return { status: 201, mensaje: 'Proveedor actualizado con éxito' }
   }
 
   async remove(id: number, user: User_Interface) {
