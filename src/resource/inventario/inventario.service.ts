@@ -62,6 +62,7 @@ export class InventarioService {
         'inventario.inventario_ID',
         'inventario.inventario_Cantidad',
         'producto.producto_ID',
+        'producto.producto_Status',
         'producto.producto_Nombre',
         'producto.producto_Categoria',
         'producto.producto_Precio',
@@ -153,7 +154,7 @@ export class InventarioService {
     // Si el usuario no es Administrador, devuelve un mensaje de error
     if (validar !== true) { return { status: 500, mensaje: validar }; }
     // Realiza la transacción de eliminar el inventario del producto en la base de datos
-    return this.transaccionService.transaction(Tipo_Transaccion.Eliminar, Inventario, '', 'inventario_ID', id);
+    return this.transaccionService.transaction(Tipo_Transaccion.Actualizar_Con_Parametros, Inventario, 'SIN_STOCK', 'inventario_Status', id);
   }
 
   // Método para validar el estado del inventario del producto, según la cantidad de productos en inventario

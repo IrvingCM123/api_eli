@@ -42,6 +42,7 @@ const database_prod = secrets.PG_DATABASE_PROD;
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
+      
       host: host_prod,
       port: parseInt(port_prod),
       username: user_prod,

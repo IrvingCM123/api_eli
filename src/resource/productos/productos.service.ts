@@ -97,4 +97,18 @@ export class ProductosService {
     return { status: 200, mensaje: 'Producto actualizado con éxito' };
   }
 
+  async eliminar( id: number, user: User_Interface ) {
+    // Valida si el usuario tiene el rol de Administrador
+    const validar = validarAdmin(user);
+    // Si el usuario no es Administrador, devuelve un mensaje de error
+    if (validar !== true) { return { status: 500, mensaje: validar } }
+    // Realiza la transacción de eliminar el producto en la base de datos con el ID recibido
+    const producto_eliminado = await this.transaccionService.transaction( Tipo_Transaccion.Actualizar_Con_Parametros, Producto, 'INACTIVO', 'producto_Status', id.toString() );
+    await this.inventarioService.remove(id, user);
+    // Si ocurre un error al eliminar el producto, devuelve un mensaje de error
+    if (producto_eliminado.status == 500) { return { status: 500, mensaje: 'Error al eliminar el producto' }; }
+    // Si el producto se elimina con éxito, devuelve un mensaje de éxito
+    return { status: 200, mensaje: 'Producto eliminado con éxito' };
+  }
+
 }

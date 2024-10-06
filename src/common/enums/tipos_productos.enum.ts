@@ -1,6 +1,6 @@
 export enum enumTipoProducto {
-    Mueblería = 'Mueblería',
-    Electrodomésticos = 'Electrodomésticos',
-    Electrónica = 'Electrónica',
+    Muebleria = 'Muebleria',
+    Electrodomesticos = 'Electrodomesticos',
+    Electronica = 'Electronica',
     
 } 
