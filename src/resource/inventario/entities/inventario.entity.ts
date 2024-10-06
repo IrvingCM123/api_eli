@@ -6,7 +6,7 @@ import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn
 // Define la entidad de la tabla inventario, almacenando la tabla inventario en la base de datos
 @Entity('inventario')
 export class Inventario {
-
+ 
     // Define el identificador de la tabla inventario, como clave primaria y autoincremental
     @PrimaryGeneratedColumn()
     inventario_ID: number;

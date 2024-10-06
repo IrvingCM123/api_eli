@@ -66,6 +66,7 @@ export class InventarioService {
         'producto.producto_Categoria',
         'producto.producto_Precio',
         'producto.producto_ImagenURL',
+        'proveedor.proveedor_ID',
         'proveedor.proveedor_Nombre',
       ])
       .getMany();
