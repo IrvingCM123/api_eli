@@ -106,7 +106,7 @@ export class ProveedoresService {
 
     if (eliminar.status === 500) { return { status: 500, mensaje: 'Error al eliminar el proveedor' } }
 
-    return { status: 200, mensaje: 'Proveedor eliminado con éxito'};
+    return { status: 201, mensaje: 'Proveedor eliminado con éxito'};
 
   }
 }

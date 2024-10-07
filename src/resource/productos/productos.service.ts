@@ -90,7 +90,7 @@ export class ProductosService {
     // Si el usuario no es Administrador, devuelve un mensaje de error
     if (validar !== true) { return { status: 500, mensaje: validar } }
     // Realiza la transacción de actualizar el producto en la base de datos con el DTO
-    const producto_actualizado = await this.transaccionService.transaction( Tipo_Transaccion.Actualizar, Producto, updateProductoDto, '', id.toString() );
+    const producto_actualizado = await this.transaccionService.transaction( Tipo_Transaccion.Actualizar, Producto, updateProductoDto, 'producto_ID', id.toString() );
     // Si ocurre un error al actualizar el producto, devuelve un mensaje de error
     if (producto_actualizado.status === 500) { return { status: 500, mensaje: 'Error al actualizar el producto' }; }
     // Si el producto se actualiza con éxito, devuelve un mensaje de éxito
@@ -104,11 +104,23 @@ export class ProductosService {
     if (validar !== true) { return { status: 500, mensaje: validar } }
     // Realiza la transacción de eliminar el producto en la base de datos con el ID recibido
     const producto_eliminado = await this.transaccionService.transaction( Tipo_Transaccion.Actualizar_Con_Parametros, Producto, 'INACTIVO', 'producto_Status', id.toString() );
-    await this.inventarioService.remove(id, user);
     // Si ocurre un error al eliminar el producto, devuelve un mensaje de error
     if (producto_eliminado.status == 500) { return { status: 500, mensaje: 'Error al eliminar el producto' }; }
     // Si el producto se elimina con éxito, devuelve un mensaje de éxito
     return { status: 200, mensaje: 'Producto eliminado con éxito' };
+  }
+
+  async activar( id: number, user: User_Interface ) {
+    // Valida si el usuario tiene el rol de Administrador
+    const validar = validarAdmin(user);
+    // Si el usuario no es Administrador, devuelve un mensaje de error
+    if (validar !== true) { return { status: 500, mensaje: validar } }
+    // Realiza la transacción de activar el producto en la base de datos con el ID recibido
+    const producto_activado = await this.transaccionService.transaction( Tipo_Transaccion.Actualizar_Con_Parametros, Producto, 'ACTIVO', 'producto_Status', id.toString() );
+    // Si ocurre un error al activar el producto, devuelve un mensaje de error
+    if (producto_activado.status == 500) { return { status: 500, mensaje: 'Error al activar el producto' }; }
+    // Si el producto se activa con éxito, devuelve un mensaje de éxito
+    return { status: 200, mensaje: 'Producto activado con éxito' };
   }
 
 }

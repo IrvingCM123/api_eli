@@ -29,6 +29,11 @@ export class ProductosController {
     return this.productosService.update(+id, updateProductoDto, user);
   }
 
+  @Put('/activarProducto/:id')
+  activar(@Param('id') id: string, @ActiveUser() user: User_Interface) {
+    return this.productosService.activar(+id, user);
+  }
+
   @Delete(':id')
   eliminar(@Param('id') id: string, @ActiveUser() user: User_Interface) {
     return this.productosService.eliminar(+id, user);
