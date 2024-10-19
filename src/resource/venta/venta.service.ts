@@ -61,7 +61,7 @@ export class VentaService {
     // Si la venta no se creó correctamente, retornar un mensaje de error
     if (venta.status === 500) { return { status: 500, mensaje: 'Error al crear la venta' }; }
     // Retornar un mensaje de éxito, indicando que la venta se creó correctamente
-    return { status: 200, mensaje: 'Venta creada con éxito' };
+    return { status: 201, mensaje: 'Venta creada con éxito' };
   }
 
   // Método para obtener todas las ventas, sin filtrar por algún campo en específico

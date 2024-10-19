@@ -30,8 +30,8 @@ export class DetalleVentaService {
       producto_venta.productoVenta_NombreProducto = productos.productoVenta_NombreProducto;
       
       const realizar_producto_venta = await this.transaccionService.transaction(Tipo_Transaccion.Guardar, ProductoVenta, producto_venta);
-      //const eliminar_Inventario = await this.eliminar_Productos_Inventario(productos.productoVenta_ProductoID, productos.productoVenta_CantidadProducto);
-      //if (eliminar_Inventario.status === 500) { return { status: eliminar_Inventario.status, mensaje: eliminar_Inventario.mensaje } }
+      const eliminar_Inventario = await this.eliminar_Productos_Inventario(productos.productoVenta_ProductoID, productos.productoVenta_CantidadProducto);
+      if (eliminar_Inventario.status === 500) { return { status: eliminar_Inventario.status, mensaje: eliminar_Inventario.mensaje } }
       id_productos_venta.push(realizar_producto_venta.resultado);
       if (realizar_producto_venta.status === 500) { return { status: 500, mensaje: 'Error al crear el producto de la venta' } }
     }
