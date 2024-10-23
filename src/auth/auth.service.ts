@@ -7,9 +7,8 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt'; 
 
 import { Mensajes_Error_Registro, Mensaje_Exito_Registro } from 'src/common/helpers/registro.helpers';
-import { Mensajes_Error_Usuario, Mensaje_Exito_USUARIO } from 'src/common/helpers/usuario.helpers';
+import { Mensaje_Exito_USUARIO } from 'src/common/helpers/usuario.helpers';
 
-// return 'Error en el servidor, intente más tarde';
 import { Cuenta } from 'src/resource/cuentas/entities/cuenta.entity';
 import { CuentasService } from 'src/resource/cuentas/cuentas.service';
 import { Estado_Logico } from 'src/common/enums/estado_logico.enum';
