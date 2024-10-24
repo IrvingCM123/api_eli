@@ -50,11 +50,15 @@ export class VentaService {
     // Si el detalle de venta no se creó correctamente, retornar un mensaje de error
     if (crear_detalle_venta.status === 500) { return { status: crear_detalle_venta.status, mensaje: crear_detalle_venta.mensaje }; }
     // Crear un objeto con la información de la venta, para almacenar la información de la venta y procesarla
+    
+    const now = new Date();
+    const offset = -6; // Offset para UTC-6
+    const localDate = new Date(now.getTime() + (offset * 60 * 60 * 1000));
     const informacion_venta = {
       // Almacenar el ID del detalle de venta creado, para relacionar la venta con el detalle de venta
       venta_DetalleVenta_ID: crear_detalle_venta.resultado.detalleVenta_ID,
       venta_EstadoVenta: createVentaDto.venta_EstadoVenta,
-      venta_FechaRegistro: new Date(),
+      venta_FechaRegistro: localDate.toISOString(),
     };
     // Utilizar el método de transacción, pertececiente al servicio de transacciones, para crear la venta, ya con el detalle de venta asociado
     const venta = await this.transaccionService.transaction( Tipo_Transaccion.Guardar, Venta, informacion_venta );
