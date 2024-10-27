@@ -8,8 +8,8 @@ export class ClientController {
 
   @Post('cliente')
   email_cliente(@Body() Data: cliente_email) {
-    const { Fecha, Cliente, Productos, Total, subject } = Data;
-    return this.clientService.email_cliente(Fecha, Cliente, Productos, Total, subject);
+    const { Fecha, Correo, Cliente, Productos, Total, subject } = Data;
+    return this.clientService.email_cliente(Fecha,Correo, Cliente, Productos, Total, subject);
   }
 
   @Post('proveedor')

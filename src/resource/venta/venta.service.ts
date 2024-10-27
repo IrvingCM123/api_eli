@@ -19,6 +19,7 @@ import { DetalleVentaService } from '../detalle_venta/detalle_venta.service';
 import { User_Interface } from 'src/common/interfaces/user.interface';
 // Importa el DataSource para poder realizar operaciones de base de datos personalizadas
 import { DataSource } from 'typeorm';
+import { ClientService } from 'src/client/client.service';
 
 @Injectable()
 export class VentaService {
@@ -27,7 +28,8 @@ export class VentaService {
   constructor(
     private transaccionService: TransaccionService,
     private detalleVentaService: DetalleVentaService,
-    private dataSource: DataSource
+    private dataSource: DataSource,
+    private clientService: ClientService
   ) {}
 
   // Método para crear una venta, creando internamente el detalle de venta y la información necesaria para su funcionamiento
@@ -45,6 +47,11 @@ export class VentaService {
       cuenta_ID: createVentaDto.cuenta_ID,
       producto_ID: createVentaDto.producto_ID,
     };
+
+    if ( informacion_detalle_venta.detalleVentaCorreoCliente != '' && informacion_detalle_venta.detalleVentaNombreCliente != '' ) {
+      this.enviarCorreo(informacion_detalle_venta);
+    }
+
     // Utilizar el método de crear un detalle de venta, pertececiente al servicio de detalle de venta, para crear el detalle de venta
     const crear_detalle_venta = await this.detalleVentaService.create( informacion_detalle_venta );
     // Si el detalle de venta no se creó correctamente, retornar un mensaje de error
@@ -66,6 +73,10 @@ export class VentaService {
     if (venta.status === 500) { return { status: 500, mensaje: 'Error al crear la venta' }; }
     // Retornar un mensaje de éxito, indicando que la venta se creó correctamente
     return { status: 201, mensaje: 'Venta creada con éxito' };
+  }
+
+  async enviarCorreo(DatosVenta: CreateDetalleVentaDto) {
+    this.clientService.email_cliente(new Date(), DatosVenta.detalleVentaCorreoCliente, DatosVenta.detalleVentaNombreCliente, DatosVenta.producto_ID, DatosVenta.detalleVenta_MontoTotal, 'Compra realizada con éxito');
   }
 
   // Método para obtener todas las ventas, sin filtrar por algún campo en específico
@@ -94,6 +105,8 @@ export class VentaService {
       'Cuenta.cuenta_Nombre',
       'Cuenta.cuenta_Apellido',
       'Cuenta.cuenta_Correo',
+      'Cuenta.cuenta_Rol',
+      'Cuenta.cuenta_Estado_Cuenta',
       'ProductoVenta.productoVenta_CantidadProducto',
       'ProductoVenta.productoVenta_PrecioProducto',
       'ProductoVenta.productoVenta_SubtotalVenta',

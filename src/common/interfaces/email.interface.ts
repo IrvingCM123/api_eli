@@ -7,6 +7,7 @@ export interface proveedor_email {
 
 export interface cliente_email {
     Fecha: any;
+    Correo: string;
     Cliente: string;
     Productos: any;
     Total: number;

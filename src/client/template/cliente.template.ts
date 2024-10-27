@@ -7,9 +7,10 @@ export function cliente_template(
     const productosHtml = Productos.map(
         (producto) => `
       <p class="iterar">
-          <span>Producto: ${producto.Nombre}</span>
-          <span>Cantidad: ${producto.Cantidad}</span>
-          <span>Precio: ${producto.Precio}</span>
+          <span>Producto: ${producto.productoVenta_NombreProducto}</span>
+          <span>Cantidad: ${producto.productoVenta_CantidadProducto}</span>
+          <span>Precio: $ ${producto.productoVenta_PrecioProducto}</span>
+          <span>Subtotal: $ ${producto.productoVenta_SubtotalVenta}</span>
       </p>
   `,
     ).join('');
@@ -102,11 +103,11 @@ export function cliente_template(
 
             <p>Fecha de solicitud: ${Fecha}</p>
 
-            <p>Estimado Cliente ${Cliente.Nombre}, por medio de este correo electrónico se le proporciona la información relacionada con su compra solicitada </p>
+            <p>Estimado Cliente ${Cliente}, por medio de este correo electrónico se le proporciona la información relacionada con su compra solicitada </p>
 
             ${productosHtml}
 
-            <p>Con un total de compra: ${Total}</p>
+            <p>Con un total de compra: $ ${Total}</p>
 
         </div>
 

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { VentaService } from './venta.service';
 import { CreateVentaDto } from './dto/create-venta.dto';
 import { UpdateVentaDto } from './dto/update-venta.dto';
@@ -20,7 +20,7 @@ export class VentaController {
   @Post()
   create(@Body() createVentaDto: CreateVentaDto, @ActiveUser() user: User_Interface) {
     return this.ventaService.create(createVentaDto, user);
-  }
+  }  
 
   @Get()
   findAll() {
@@ -37,7 +37,7 @@ export class VentaController {
     return this.ventaService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateVentaDto: UpdateVentaDto, @ActiveUser() user: User_Interface) {
     return this.ventaService.update(+id, updateVentaDto, user);
   }

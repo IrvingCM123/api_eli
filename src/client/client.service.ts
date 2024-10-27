@@ -21,9 +21,9 @@ export class ClientService {
     };
   }
 
-  async email_cliente(Fecha: any, Cliente: string, Productos: any, Total: number, subject: string) {
+  async email_cliente(Fecha: any, Correo: string, Cliente: string, Productos: any, Total: number, subject: string) {
     const construir_template = await enviar_cliente(Fecha, Cliente, Productos, Total);
-    await enviar_Email(Cliente, construir_template.template_email, subject);
+    await enviar_Email(Correo, construir_template.template_email, subject);
     return {
       status: 201,
       message: 'Email sent successfully',
