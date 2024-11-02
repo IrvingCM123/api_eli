@@ -36,11 +36,6 @@ export class productoOC {
     @IsNotEmpty({ message: Mensajes_Generales.CAMPO_VACIO })
     productoOC_Cantidad_Producto: number;
 
-    @ApiProperty({ description: 'Precio de compra del producto', example: 10.5, uniqueItems: false, nullable: false, type: 'number' })
-    @IsNumber({}, { message: Mensajes_Generales.CAMPO_NUMBER })
-    @IsOptional()
-    productoOC_Subtotal_OC: number;
-
     @ApiProperty({ description: 'Nombre del producto', example: 'Papas', uniqueItems: false, nullable: false, type: 'string', minLength: 1, maxLength: 30 })
     @IsString({ message: Mensajes_Generales.CAMPO_STRING })
     @IsNotEmpty({ message: Mensajes_Generales.CAMPO_VACIO })

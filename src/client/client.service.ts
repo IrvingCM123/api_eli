@@ -12,9 +12,9 @@ export class ClientService {
     private transaccionService: TransaccionService
   ) { }
 
-  async email_proveedor(Fecha: any, Proveedor: string, Productos: any, subject: string) {
-    const construir_template = await enviar_proveedor(Fecha, Proveedor, Productos);
-    await enviar_Email(Proveedor, construir_template.template_email, subject);
+  async email_proveedor(Fecha: any, Correo: string, Nombre: string, Productos: any, subject: string) {
+    const construir_template = await enviar_proveedor(Fecha, Nombre, Productos);
+    await enviar_Email(Correo, construir_template.template_email, subject);
     return {
       status: 201,
       message: 'Email sent successfully',

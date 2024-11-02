@@ -1,13 +1,13 @@
 export function proveedor_template(
     Fecha: string,
-    Proveedor: any,
+    Proveedor: string,
     Productos: any[],
 ) {
     const productosHtml = Productos.map(
         (producto) => `
       <p class="iterar">
-          <span>Producto: ${producto.Nombre}</span>
-          <span>Cantidad: ${producto.Cantidad}</span>
+          <span>Producto: ${producto.productoOC_Nombre_Producto}</span>
+          <span>Cantidad: ${producto.productoOC_Cantidad_Producto}</span>
       </p>
   `,
     ).join('');

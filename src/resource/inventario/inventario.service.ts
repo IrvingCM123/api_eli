@@ -93,10 +93,18 @@ export class InventarioService {
 
   // Mismo método al anterior, pero para uso interno del sistema, sin validación de roles de usuario
   async actualizarInventarioPrivate(productoID: string | number, cantidad: number) {
-    const inventario_ID = await this.transaccionService.transaction( Tipo_Transaccion.Consultar_Con_Parametros, Inventario, '', 'inventario_ProductoID', productoID );
-    console.log(inventario_ID, "inventario_ID");
-    const inventario = await this.transaccionService.transaction(Tipo_Transaccion.Actualizar_Con_Parametros, Inventario, cantidad, 'inventario_Cantidad', inventario_ID.resultado[0].inventario_ID );
-    return inventario;
+    // Obtiene el ID del producto que se está vendiendo, a través del ID del producto
+    const producto = await this.transaccionService.transaction( Tipo_Transaccion.Consultar_Con_Parametros, Producto, '', 'producto_ID', productoID );
+    // Almacenar el ID del producto en una nueva variable
+    const id = producto.resultado[0].producto_ID;
+    // Obtiene el inventario del producto que se está vendiendo, a través del ID del producto que se está vendiendo 
+    const inventario = await this.dataSource.getRepository(Inventario).createQueryBuilder('inventario').where('inventario.inventario_ProductoID = :id', { id }).getOne();
+    const nuevoStock = inventario.inventario_Cantidad + cantidad;
+    inventario.inventario_Cantidad = nuevoStock;
+    const status = this.validarStock(nuevoStock);
+    inventario.inventario_Status = status;
+    const inventarioActualizado = await this.transaccionService.transaction(Tipo_Transaccion.Guardar, Inventario, inventario );
+    return inventarioActualizado;
   }
 
   async eliminarInventarioPrivate(productoID: string | number, cantidadRestar: number) {

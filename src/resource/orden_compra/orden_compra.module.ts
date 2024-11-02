@@ -6,11 +6,13 @@ import { OrdenCompra } from './entities/orden_compra.entity';
 import { DetalleOrdenCompra } from '../detalle_orden_compra/entities/detalle_orden_compra.entity';
 import { TransaccionModule } from 'src/common/transaction/transaccion.module';
 import { DetalleOrdenCompraModule } from '../detalle_orden_compra/detalle_orden_compra.module';
+import { ClientModule } from 'src/client/client.module';
+import { InventarioModule } from '../inventario/inventario.module';
 
 @Module({
   controllers: [OrdenCompraController],
   providers: [OrdenCompraService],
-  imports: [TypeOrmModule.forFeature([OrdenCompra, DetalleOrdenCompra]), TransaccionModule, DetalleOrdenCompraModule],
+  imports: [TypeOrmModule.forFeature([OrdenCompra, DetalleOrdenCompra]), TransaccionModule, DetalleOrdenCompraModule, ClientModule, InventarioModule],
   exports: [OrdenCompraService]
 })
 export class OrdenCompraModule {}

@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { OrdenCompraService } from './orden_compra.service';
-import { CreateOrdenCompraDto } from './dto/create-orden_compra.dto';
+import { CreateOrdenCompraDto, carritoCompras } from './dto/create-orden_compra.dto';
 import { UpdateOrdenCompraDto } from './dto/update-orden_compra.dto';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -23,7 +23,7 @@ export class OrdenCompraController {
   }
 
   @Post('/carritocompras')
-  crear_varios(@Body() createOrdenCompraDto: CreateOrdenCompraDto[], @ActiveUser() user: User_Interface) {
+  crear_varios(@Body() createOrdenCompraDto:carritoCompras, @ActiveUser() user: User_Interface) {
     return this.ordenCompraService.crear_varios(createOrdenCompraDto, user);
   }
 

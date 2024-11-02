@@ -103,7 +103,7 @@ export class ProveedoresService {
     if (validar !== true) { return { status: 500, mensaje: validar } }
     const proveedor = await this.transaccionService.transaction( Tipo_Transaccion.Consultar_Con_Parametros, Proveedore, '', 'proveedor_ID', id.toString() )
     const eliminar = await this.transaccionService.transaction(Tipo_Transaccion.Eliminar_Con_Parametros, Proveedore, '', 'proveedor_ID', id.toString() )
-    const eliminarBanco = await this.transaccionService.transaction(Tipo_Transaccion.Eliminar_Con_Parametros, ProveedorBanco, '', 'proveedorBanco_ID', proveedor.resultado.proveedorBanco_ID.toString() )
+    const eliminarBanco = await this.transaccionService.transaction(Tipo_Transaccion.Eliminar_Con_Parametros, ProveedorBanco, '', 'proveedorBanco_ID', proveedor.resultado[0].proveedorBanco_ID.toString() )
     if (eliminar.status === 500 || eliminarBanco.status == 500) { return { status: 500, mensaje: 'Error al eliminar el proveedor' } }
 
     return { status: 201, mensaje: 'Proveedor eliminado con éxito'};

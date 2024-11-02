@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { EstadoVenta } from 'src/common/enums/estado_Venta.enum';
 import { DetalleOrdenCompra } from 'src/resource/detalle_orden_compra/entities/detalle_orden_compra.entity';
+import { EstadoCompra } from 'src/common/enums/estado_Compra';
 // Define la entidad de la tabla orden_compra, almacenando la tabla orden_compra en la base de datos
 @Entity('orden_compra')
 export class OrdenCompra {
@@ -8,8 +8,8 @@ export class OrdenCompra {
     @PrimaryGeneratedColumn()
     orden_compra_ID: number;
     // Define la columna orden_compra_estado, como tipo enumeración, no nulo, almacenando el estado de la orden de compra
-    @Column({ type: 'enum', enum:EstadoVenta ,nullable: false })
-    orden_compra_estado: EstadoVenta;
+    @Column({ type: 'enum', enum:EstadoCompra ,nullable: false })
+    orden_compra_estado: EstadoCompra;
     // Define la columna orden_compra_fecha_ordenado, como tipo fecha y hora, no nulo, almacenando la fecha y hora de la orden de compra
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: true })
     orden_compra_fecha_ordenado: Date;
@@ -18,7 +18,7 @@ export class OrdenCompra {
     orden_compra_fecha_entregado: Date | string;
     // Almacena el identificador del detalle de la orden de compra relacionado con la orden de compra
     @OneToOne( () => DetalleOrdenCompra, { eager: true, cascade: true })
-    @JoinColumn({ name: 'detalleOC_ID' })
+    @JoinColumn({ name: 'detalle_orden_compra_ID' })
     detalle_orden_compra_ID: DetalleOrdenCompra;
-
+ 
 }

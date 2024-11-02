@@ -14,8 +14,8 @@ export class ClientController {
 
   @Post('proveedor')
   email_proveedor(@Body() Data: proveedor_email) {
-    const { Fecha, Proveedor, Productos, subject } = Data;
-    return this.clientService.email_proveedor(Fecha, Proveedor, Productos, subject);
+    const { Fecha, Correo, Nombre, Productos, subject } = Data;
+    return this.clientService.email_proveedor(Fecha, Correo, Nombre, Productos, subject);
   }
 
 }

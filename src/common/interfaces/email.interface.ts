@@ -1,6 +1,7 @@
 export interface proveedor_email {
     Fecha: any;
-    Proveedor: string;
+    Correo: string;
+    Nombre: string;
     Productos: any;
     subject: string;
 }
