@@ -1,5 +1,8 @@
+import { getApiURL } from "./const";
+
 describe('Registro', () => {
-	const baseUrl = 'http://localhost:80/servidor/auth';
+
+	const baseUrl = getApiURL() + 'auth';
 
 	it('Registra un usuario, con un rol inválido', () => {
 		const userData = {

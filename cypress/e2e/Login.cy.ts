@@ -1,5 +1,8 @@
+import { getApiURL } from "./const";
+
 describe('Registro', () => {
-	const baseUrl = 'http://localhost:80/servidor/auth';
+	
+	const baseUrl = getApiURL() + 'auth';
 
 	it('La API recibirá solamente el parametro de correo electronico en la petición	', () => {
 		const loginData = {

@@ -41,6 +41,9 @@ export class ProductosService {
     if (validar !== true) {  return { status: 500, mensaje: validar }; }
     // Obtiene los proveedores completos, según los proveedores enviados en el DTO
     createProductoDto.producto_ProveedorID = await this.obtenerProveedores(createProductoDto.producto_ProveedorID, user);
+    if (createProductoDto.producto_ProveedorID.status == 500) {
+      return { status: 500, mensaje: 'El proveedor no existe' };
+    }
     // Almacena la cantidad de productos en stock, y elimina la propiedad del DTO
     const stock = createProductoDto.producto_stock;
     delete createProductoDto.producto_stock;
@@ -72,6 +75,7 @@ export class ProductosService {
       // Si el proveedor se encuentra en la base de datos, lo almacena en el arreglo de proveedores complet
       proveedoresCompletos.push(proveedor[0]);
     }
+    console.log(proveedoresCompletos, "prov")
     // Devuelve el arreglo de proveedores completos
     return proveedoresCompletos;
   }

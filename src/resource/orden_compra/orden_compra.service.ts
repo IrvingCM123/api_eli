@@ -43,10 +43,11 @@ export class OrdenCompraService {
     for (const orden of orden_compra.ordenes_compra) {
       await this.create(orden, user);
     }
+
+    return { status: 201, mensaje: 'Orden de compra creada con éxito' };
   }
 
   async create(createOrdenCompraDto: CreateOrdenCompraDto, user: User_Interface) {
-
     const validar = validarAdmin(user);
 
     if (validar !== true) { return { status: 500, mensaje: validar } }
@@ -112,7 +113,6 @@ export class OrdenCompraService {
   }
 
   async update(id: number, updateOrdenCompraDto: UpdateOrdenCompraDto, user: User_Interface) {
-
     const validar = validarAdmin(user);
 
     if (validar !== true) { return { status: 500, mensaje: validar } }
@@ -130,11 +130,11 @@ export class OrdenCompraService {
        }
     }
 
-    const actualizar_orden_compra = await this.transaccionService.transaction(Tipo_Transaccion.Actualizar, OrdenCompra, informacion_detalle_compra, '', id.toString());
+    const actualizar_orden_compra = await this.transaccionService.transaction(Tipo_Transaccion.Actualizar_Con_Parametros, OrdenCompra, updateOrdenCompraDto.orden_compra_estado, 'orden_compra_estado', id.toString());
 
     if (actualizar_orden_compra.status === 500) { return { status: 500, mensaje: 'Error al actualizar la orden de compra' } }
 
-    return { status: 200, mensaje: 'Orden de compra actualizada con éxito' };
+    return { status: 201, mensaje: 'Orden de compra actualizada con éxito' };
 
   }
 

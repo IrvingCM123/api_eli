@@ -39,6 +39,7 @@ export class OrdenCompraController {
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateOrdenCompraDto: UpdateOrdenCompraDto, @ActiveUser() user: User_Interface) {
+    console.log(updateOrdenCompraDto, "controller")
     return this.ordenCompraService.update(+id, updateOrdenCompraDto, user);
   }
 

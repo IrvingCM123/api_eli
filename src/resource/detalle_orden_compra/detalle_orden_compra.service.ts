@@ -26,7 +26,6 @@ export class DetalleOrdenCompraService {
   ) { }
 
   async create(createDetalleOrdenCompraDto: CreateDetalleOrdenCompraDto) {
-
     // Iterar los productos de la orden de compra para obtener la información de cada producto 
     const productos: any = await this.obtenerProducto(createDetalleOrdenCompraDto.detalleOC_ProductoOC);
     // Realizar la transacción para crear los productos de la orden de compra y almacenarlos en la base de datos
@@ -47,7 +46,6 @@ export class DetalleOrdenCompraService {
 
     // Realiza la transacción para crear el detalle de la orden de compra y almacenarlo en la base de datos
     const detalle_orden_compra = await this.transaccionService.transaction( Tipo_Transaccion.Guardar, DetalleOrdenCompra, informacion_detalle_compra );
-    
     // Verifica si se ha producido un error al crear el detalle de la orden de compra
     if (detalle_orden_compra.status === 500) { return { status: 500, mensaje: Errores_Operaciones.EROR_CREAR }; }
     // Si el detalle de la orden de compra se ha creado correctamente, se devuelve el resultado de la transacción
