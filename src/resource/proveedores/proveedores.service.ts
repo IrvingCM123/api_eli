@@ -24,7 +24,7 @@ export class ProveedoresService {
 
   async create(createProveedoreDto: CreateProveedoreDto, user: User_Interface) {
 
-    const validar = validarAdmin(user);
+    const validar = validarUsuario(user);
 
     if (validar !== true) { return { status: 500, mensaje: validar } }
 
@@ -86,7 +86,7 @@ export class ProveedoresService {
   }
 
   async update(id: number, updateProveedoreDto: UpdateProveedoreDto, user: User_Interface) {
-    const validar = validarAdmin(user);
+    const validar = validarUsuario(user);
     if (validar !== true) { return { status: 500, mensaje: validar } }
     const proveedorBanco = { ...updateProveedoreDto.proveedorBanco_ID }
     await this.transaccionService.transaction( Tipo_Transaccion.Actualizar, ProveedorBanco, proveedorBanco, 'proveedorBanco_ID', proveedorBanco.proveedorBanco_ID.toString() )
@@ -98,7 +98,7 @@ export class ProveedoresService {
 
   async remove(id: number, user: User_Interface) {
     
-    const validar = validarAdmin(user);
+    const validar = validarUsuario(user);
 
     if (validar !== true) { return { status: 500, mensaje: validar } }
     const proveedor = await this.transaccionService.transaction( Tipo_Transaccion.Consultar_Con_Parametros, Proveedore, '', 'proveedor_ID', id.toString() )

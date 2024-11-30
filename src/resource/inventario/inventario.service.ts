@@ -32,7 +32,7 @@ export class InventarioService {
   // Método para crear un inventario de productos en la base de datos
   create(createInventarioDto: CreateInventarioDto, user: User_Interface) {
     // Valida si el usuario tiene el rol de Administrador
-    const validar = validarAdmin(user);
+    const validar = validarUsuario(user);
     // Si el usuario no es Administrador, devuelve un mensaje de error
     if (validar !== true) { return { status: 500, mensaje: validar }; }
     // Valida el estado del inventario del producto, según la cantidad de productos en inventario
@@ -158,7 +158,7 @@ export class InventarioService {
   // Método para eliminar un inventario de productos en la base de datos
   remove(id: number, user: User_Interface) {
     // Valida si el usuario tiene el rol de Administrador
-    const validar = validarAdmin(user);
+    const validar = validarUsuario(user);
     // Si el usuario no es Administrador, devuelve un mensaje de error
     if (validar !== true) { return { status: 500, mensaje: validar }; }
     // Realiza la transacción de eliminar el inventario del producto en la base de datos

@@ -36,7 +36,7 @@ export class OrdenCompraService {
 
   // Crea varias ordenes de compra a partir de un carrito de compras (array de ordenes de compra)
   async crear_varios(orden_compra: carritoCompras, user: User_Interface) {
-    const validar = validarAdmin(user);
+    const validar = validarUsuario(user);
 
     if (validar !== true) { return { status: 500, mensaje: validar } }
 
@@ -48,7 +48,7 @@ export class OrdenCompraService {
   }
 
   async create(createOrdenCompraDto: CreateOrdenCompraDto, user: User_Interface) {
-    const validar = validarAdmin(user);
+    const validar = validarUsuario(user);
 
     if (validar !== true) { return { status: 500, mensaje: validar } }
 
@@ -113,14 +113,14 @@ export class OrdenCompraService {
   }
 
   async update(id: number, updateOrdenCompraDto: UpdateOrdenCompraDto, user: User_Interface) {
-    const validar = validarAdmin(user);
+    const validar = validarUsuario(user);
 
     if (validar !== true) { return { status: 500, mensaje: validar } }
 
     const buscar: any = await this.findOne(id, user);
 
     let informacion_detalle_compra: any = buscar;
-
+    informacion_detalle_compra.orden_compra_estado = updateOrdenCompraDto.orden_compra_estado;
     if (updateOrdenCompraDto.orden_compra_estado == EstadoCompra.ENTREGADO) {
       informacion_detalle_compra.orden_compra_fecha_entregado = await this.obtenerFechaActual();
       informacion_detalle_compra.orden_compra_estado = EstadoCompra.ENTREGADO;
@@ -129,8 +129,7 @@ export class OrdenCompraService {
         await this.inventarioService.actualizarInventarioPrivate(producto.productoOC_Producto_ID.producto_ID, producto.productoOC_Cantidad_Producto);
        }
     }
-
-    const actualizar_orden_compra = await this.transaccionService.transaction(Tipo_Transaccion.Actualizar_Con_Parametros, OrdenCompra, updateOrdenCompraDto.orden_compra_estado, 'orden_compra_estado', id.toString());
+    const actualizar_orden_compra = await this.transaccionService.transaction(Tipo_Transaccion.Actualizar, OrdenCompra, informacion_detalle_compra, '', id.toString());
 
     if (actualizar_orden_compra.status === 500) { return { status: 500, mensaje: 'Error al actualizar la orden de compra' } }
 
@@ -140,7 +139,7 @@ export class OrdenCompraService {
 
   async remove(id: number, user: User_Interface) {
 
-    const validar = validarAdmin(user);
+    const validar = validarUsuario(user);
 
     if (validar !== true) { return { status: 500, mensaje: validar } }
 

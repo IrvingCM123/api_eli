@@ -13,7 +13,7 @@ import { User_Interface } from 'src/common/interfaces/user.interface';
 // Importa la entidad Producto, para realizar las transacciones con la tabla producto
 import { Producto } from './entities/producto.entity';
 // Importa el método validarAdmin para validar los roles de acceso al utilizar los métodos del servicio
-import { validarAdmin } from 'src/auth/guard/validateRole.guard';
+import { validarAdmin, validarUsuario } from 'src/auth/guard/validateRole.guard';
 // Importa el DTO CreateInventarioDto, para definir la estructura de los datos que se envían al crear un inventario
 import { CreateInventarioDto } from '../inventario/dto/create-inventario.dto';
 // Importa el servicio InventarioService para reutilizar los métodos de creación de inventario
@@ -36,7 +36,7 @@ export class ProductosService {
   // Método para crear un producto en la base de datos con su respectivo inventario
   async create(createProductoDto: CreateProductoDto, user: User_Interface) {
     // Valida si el usuario tiene el rol de Administrador
-    const validar = validarAdmin(user);
+    const validar = validarUsuario(user);
     // Si el usuario no es Administrador, devuelve un mensaje de error
     if (validar !== true) {  return { status: 500, mensaje: validar }; }
     // Obtiene los proveedores completos, según los proveedores enviados en el DTO
@@ -90,7 +90,7 @@ export class ProductosService {
   // Método para obtener todos los productos de la base de datos
   async update( id: number, updateProductoDto: UpdateProductoDto, user: User_Interface ) {
     // Valida si el usuario tiene el rol de Administrador
-    const validar = validarAdmin(user);
+    const validar = validarUsuario(user);
     // Si el usuario no es Administrador, devuelve un mensaje de error
     if (validar !== true) { return { status: 500, mensaje: validar } }
     // Realiza la transacción de actualizar el producto en la base de datos con el DTO
@@ -103,7 +103,7 @@ export class ProductosService {
 
   async eliminar( id: number, user: User_Interface ) {
     // Valida si el usuario tiene el rol de Administrador
-    const validar = validarAdmin(user);
+    const validar = validarUsuario(user);
     // Si el usuario no es Administrador, devuelve un mensaje de error
     if (validar !== true) { return { status: 500, mensaje: validar } }
     // Realiza la transacción de eliminar el producto en la base de datos con el ID recibido
@@ -116,7 +116,7 @@ export class ProductosService {
 
   async activar( id: number, user: User_Interface ) {
     // Valida si el usuario tiene el rol de Administrador
-    const validar = validarAdmin(user);
+    const validar = validarUsuario(user);
     // Si el usuario no es Administrador, devuelve un mensaje de error
     if (validar !== true) { return { status: 500, mensaje: validar } }
     // Realiza la transacción de activar el producto en la base de datos con el ID recibido
